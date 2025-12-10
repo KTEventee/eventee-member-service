@@ -57,18 +57,18 @@ public class Member extends BaseEntity {
     @Column(name = "profile_image_url", length = 512)
     private String profileImageUrl;
 
-    /** 닉네임 변경 */
+
     public void updateNickname(String newNickname) {
         this.nickname = newNickname;
     }
 
-    /** 프로필 이미지 정보 변경 */
+
     public void updateProfileImage(String key, String url) {
         this.profileImageKey = key;
         this.profileImageUrl = url;
     }
 
-    /** 프로필 이미지 삭제 (DB에서만 제거) */
+    // 프로필 이미지 삭제 (DB에서만 제거)
     public void clearProfileImage() {
         this.profileImageKey = null;
         this.profileImageUrl = null;

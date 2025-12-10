@@ -1,6 +1,5 @@
 package eventee.server.member.exception;
 
-
 import eventee.server.common.exception.BaseException;
 import eventee.server.common.exception.codes.BaseCode;
 

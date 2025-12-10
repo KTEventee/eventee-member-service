@@ -5,7 +5,6 @@ import eventee.server.member.dto.MemberProfileImageDto.DeleteImageResponse;
 import eventee.server.member.dto.MemberProfileImageDto.PresignedUrlResponse;
 import eventee.server.member.dto.MemberProfileImageDto.UploadIntentRequest;
 import eventee.server.member.dto.MemberResponse;
-import jakarta.validation.Valid;
 
 public interface MemberService {
   String checkAndUpdateNickname(Long memberId, String nickname);
