@@ -9,14 +9,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Presigned URL (PUT) 기반 프로필 이미지 업로드 관련 DTO 묶음 클래스
- */
+
 public class MemberProfileImageDto {
 
-  /**
-   * Presigned URL 발급 요청 DTO
-   */
+
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -32,9 +28,7 @@ public class MemberProfileImageDto {
     private long contentLength;
   }
 
-  /**
-   * Presigned URL 응답 DTO
-   */
+
   @Data
   @Builder
   @NoArgsConstructor
@@ -54,9 +48,7 @@ public class MemberProfileImageDto {
     private long expiresIn;
   }
 
-  /**
-   * 업로드 완료 후 서버 반영 요청 DTO
-   */
+
   @Data
   @NoArgsConstructor
   @AllArgsConstructor
@@ -77,9 +69,7 @@ public class MemberProfileImageDto {
     private Long size;
   }
 
-  /**
-   * 프로필 이미지 삭제 응답 DTO
-   */
+
   @Data
   @Builder
   @NoArgsConstructor
