@@ -21,21 +21,13 @@ jobs:
           distribution: "temurin"
 
       # 공통 모듈 접근 설정
-      - name: Configure Maven for GitHub Packages
+      - name: Configure Gradle for GitHub Packages
         run: |
-          mkdir -p ~/.m2
-          cat <<EOF > ~/.m2/settings.xml
-          <settings>
-            <servers>
-              <server>
-                <id>github</id>
-                <username>${{ github.actor }}</username>
-                <password>${{ secrets.COMMON_TOKEN_GITHUB }}</password>
-              </server>
-            </servers>
-          </settings>
+          mkdir -p ~/.gradle
+          cat <<EOF > ~/.gradle/gradle.properties
+          gpr.user=${{ github.actor }}
+          gpr.key=${{ secrets.COMMON_TOKEN_GITHUB }}
           EOF
-
 
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
