@@ -7,7 +7,8 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+#    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -50,24 +51,28 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          IMAGE_NAME=ghcr.io/ktEventee/${{ github.event.repository.name }}
+          IMAGE_NAME=ghcr.io/kteventee/$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           COMMIT_SHA=${{ github.sha }}
-
+          
           echo "Building image: $IMAGE_NAME"
           docker build \
             -t $IMAGE_NAME:develop-$COMMIT_SHA \
             -t $IMAGE_NAME:develop-latest \
             .
 
+
       - name: Push Docker Image
         run: |
-          IMAGE_NAME=ghcr.io/ktEventee/${{ github.event.repository.name }}
+          IMAGE_NAME=ghcr.io/kteventee/$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           COMMIT_SHA=${{ github.sha }}
-
+          
           docker push $IMAGE_NAME:develop-$COMMIT_SHA
           docker push $IMAGE_NAME:develop-latest
 
+
       - name: Output built image info
         run: |
-          echo "Image pushed: ghcr.io/ktEventee/${{ github.event.repository.name }}:develop-${{ github.sha }}"
+          IMAGE_NAME=ghcr.io/kteventee/$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
+          echo "Image pushed: $IMAGE_NAME:develop-${{ github.sha }}"
           echo "Latest tag: develop-latest"
+
