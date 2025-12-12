@@ -1,3 +1,4 @@
+
 FROM amazoncorretto:17-alpine3.22 AS builder
 
 WORKDIR /app
