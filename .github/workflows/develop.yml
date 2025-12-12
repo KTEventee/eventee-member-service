@@ -29,6 +29,13 @@ jobs:
           gpr.key=${{ secrets.COMMON_TOKEN_GITHUB }}
           EOF
 
+      - name: Debug GitHub Packages access
+        run: |
+          curl -I \
+            -u "${{ github.actor }}:${{ secrets.COMMON_TOKEN_GITHUB }}" \
+            https://maven.pkg.github.com/KTEventee/eventee-common/
+
+
       - name: Grant execute permission for Gradlew
         run: chmod +x ./gradlew
 
