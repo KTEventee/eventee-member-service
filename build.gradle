@@ -76,8 +76,8 @@ repositories {
 		name = 'GitHubPackages'
 		url = uri("https://maven.pkg.github.com/KTEventee/eventee-common")  // GitHub 리포지토리 URL
 		credentials {
-			username = project.findProperty("gpr.user") ?: System.getenv("COMMON_USERNAME_GITHUB")
-			password = project.findProperty("gpr.token") ?: System.getenv("COMMON_TOKEN_GITHUB")
+			username = project.findProperty("gpr.user")
+			password = project.findProperty("gpr.token")
 		}
 	}
 }
