@@ -1,9 +1,26 @@
-FROM eclipse-temurin:17-jre
+
+FROM amazoncorretto:17-alpine3.22 AS builder
+
 WORKDIR /app
 
-# GitHub Actions에서 미리 빌드해 둔 jar를 COPY
-COPY build/libs/*.jar app.jar
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle ./
 
-EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+RUN ./gradlew dependencies --no-daemon || return 0
+COPY src src
+RUN ./gradlew bootJar --no-daemon
+
+
+
+FROM amazoncorretto:17-alpine3.22-jdk
+RUN addgroup -S app && adduser -S app -G app
+WORKDIR /home/app
+COPY --from=builder /app/build/libs/*.jar app.jar
+
+RUN chown -R app:app /home/app
+USER app
+
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
