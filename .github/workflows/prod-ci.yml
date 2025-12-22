@@ -76,6 +76,7 @@ jobs:
             -d '{
               "event_type": "deploy-prod",
               "client_payload": {
+                "service" : "member",
                 "image": "'"${{ steps.login-ecr.outputs.registry }}/$ECR_REPOSITORY"'",
                 "tag": "'"${{ steps.image.outputs.tag }}"'"
               }
