@@ -1,4 +1,4 @@
-name: prod-build-ecr.yml
+name: Build & Push Docker Image to GHCR (develop)
 
 on:
   pull_request:
