@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-    paths-ignore:
-      - '.github/**'
 
 jobs:
   build:

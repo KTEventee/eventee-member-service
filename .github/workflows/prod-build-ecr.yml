@@ -1,14 +1,18 @@
 name: prod-build-ecr.yml
+
 on:
-  push:
+  pull_request:
     branches:
       - prod
+    types:
+      - closed
 
 permissions:
   contents: read
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +47,7 @@ jobs:
         run: ./gradlew clean bootJar --no-daemon
 
       - name: Login to ECR
-        id : login-ecr
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Generate image tag
@@ -58,7 +62,6 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITTORY }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.image.outputs.tag }} \
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.image.outputs.tag }} .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.image.outputs.tag }}
           echo "$ECR_REGISTRY/$ECR_REPOSITORY:${{ steps.image.outputs.tag }}"
-
