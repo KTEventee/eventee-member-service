@@ -59,7 +59,7 @@ jobs:
         id: image
         run: |
           SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-          echo "tag=sha-${SHORT_SHA}" >> $GITHUB_OUTPUT
+          echo "tag=prod-${SHORT_SHA}" >> $GITHUB_OUTPUT
 
       - name: Build and Push Image
         run: |
