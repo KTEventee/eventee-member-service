@@ -2,6 +2,8 @@ package eventee.server.member.service;
 
 import eventee.server.common.aws.S3Props;
 import eventee.server.member.converter.MemberConverter;
+import eventee.server.member.dto.InternalGoogleLoginRequest;
+import eventee.server.member.dto.InternalMemberResponse;
 import eventee.server.member.dto.MemberProfileImageDto.ConfirmUploadRequest;
 import eventee.server.member.dto.MemberProfileImageDto.PresignedUrlResponse;
 import eventee.server.member.dto.MemberProfileImageDto.UploadIntentRequest;
@@ -129,6 +131,27 @@ public class MemberServiceImpl implements MemberService {
         .previousUrl(previousUrl)
         .status("deleted")
         .build();
+  }
+
+  @Override
+  @Transactional
+  public InternalMemberResponse findOrCreateByGoogle(
+      InternalGoogleLoginRequest request
+  ) {
+    return memberRepository
+        .findBySocialId(request.socialId())
+        .map(member -> new InternalMemberResponse(member.getId(), false))
+        .orElseGet(() -> {
+          Member newMember = Member.builder()
+              .socialId(request.socialId())
+              .email(request.email())
+              .nickname(request.nickname())
+              .role(Member.Role.USER)
+              .build();
+
+          Member saved = memberRepository.save(newMember);
+          return new InternalMemberResponse(saved.getId(), true);
+        });
   }
 
   private Member verifyMember(Long memberId) {
