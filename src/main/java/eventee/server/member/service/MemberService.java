@@ -1,5 +1,7 @@
 package eventee.server.member.service;
 
+import eventee.server.member.dto.InternalGoogleLoginRequest;
+import eventee.server.member.dto.InternalMemberResponse;
 import eventee.server.member.dto.MemberProfileImageDto.ConfirmUploadRequest;
 import eventee.server.member.dto.MemberProfileImageDto.DeleteImageResponse;
 import eventee.server.member.dto.MemberProfileImageDto.PresignedUrlResponse;
@@ -15,4 +17,6 @@ public interface MemberService {
   String confirmProfileImage(Long memberId, ConfirmUploadRequest request);
 
   DeleteImageResponse deleteProfileImage(Long memberId);
+
+  InternalMemberResponse findOrCreateByGoogle(InternalGoogleLoginRequest request);
 }
