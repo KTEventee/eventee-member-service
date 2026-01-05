@@ -118,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
     Member member = verifyMember(memberId);
 
     if (member.getProfileImageKey() == null) {
-      new MemberHandler(MemberErrorStatus.MEMBER_IMAGE_INVALID_KEY);
+      throw new MemberHandler(MemberErrorStatus.MEMBER_IMAGE_INVALID_KEY);
     }
 
     String key = member.getProfileImageKey();
