@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,10 +44,10 @@ public class MemberController {
   @PatchMapping(value = "/nickname", produces = "application/json")
   public BaseResponse<String> checkAndUpdateNickname(
       HttpServletRequest request,
-      @RequestParam("nickname") @NotBlank String nickname
+      @RequestParam("nickname") @NotBlank String nickname,
+      Authentication authentication
   ) {
-
-    Long memberId = (Long) request.getAttribute("memberId");
+    Long memberId = (Long) authentication.getPrincipal();
     if (memberId == null) {
       throw new JwtHandler(JwtErrorCode.JWT_MISSING_TOKEN);
     }
@@ -60,9 +62,11 @@ public class MemberController {
           """
   )
   @GetMapping("/mypage")
-  public BaseResponse<MemberResponse> getMyPageInfo(HttpServletRequest request) {
+  public BaseResponse<MemberResponse> getMyPageInfo(
+          HttpServletRequest request,
+          Authentication authentication) {
 
-    Long memberId = (Long) request.getAttribute("memberId");
+    Long memberId = (Long) authentication.getPrincipal();
     if (memberId == null) {
       throw new JwtHandler(JwtErrorCode.JWT_MISSING_TOKEN);
     }
@@ -85,10 +89,11 @@ public class MemberController {
   @PostMapping("/presigned-url")
   public BaseResponse<MemberProfileImageDto.PresignedUrlResponse> createPresignedUrl(
       HttpServletRequest request,
+      Authentication authentication,
       @Valid @RequestBody MemberProfileImageDto.UploadIntentRequest uploadRequest
   ) {
 
-    Long memberId = (Long) request.getAttribute("memberId");
+    Long memberId = (Long) authentication.getPrincipal();
     if (memberId == null) {
       throw new JwtHandler(JwtErrorCode.JWT_MISSING_TOKEN);
     }
@@ -109,10 +114,11 @@ public class MemberController {
   @PostMapping("/confirm")
   public BaseResponse<String> confirmProfileImage(
       HttpServletRequest request,
+      Authentication authentication,
       @Valid @RequestBody MemberProfileImageDto.ConfirmUploadRequest confirmRequest
   ) {
 
-    Long memberId = (Long) request.getAttribute("memberId");
+    Long memberId = (Long) authentication.getPrincipal();
     if (memberId == null) {
       throw new JwtHandler(JwtErrorCode.JWT_MISSING_TOKEN);
     }
@@ -130,10 +136,11 @@ public class MemberController {
   )
   @DeleteMapping
   public BaseResponse<MemberProfileImageDto.DeleteImageResponse> deleteProfileImage(
-      HttpServletRequest request
+      HttpServletRequest request,
+      Authentication authentication
   ) {
 
-    Long memberId = (Long) request.getAttribute("memberId");
+    Long memberId = (Long) authentication.getPrincipal();
     if (memberId == null) {
       throw new JwtHandler(JwtErrorCode.JWT_MISSING_TOKEN);
     }
